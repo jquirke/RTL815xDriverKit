@@ -1,0 +1,543 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F2A491A285F9396991FCC06 /* DriverKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D06AAE62424020A2ECA14AD /* DriverKit.framework */; };
+		C114FC708059BB2585520A78 /* RTLDesc.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B35BF0093162F92F8F913D /* RTLDesc.h */; };
+		27C700AC1D8D7CB68536BB3D /* RTLOcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 7350268F67111D6638A123F7 /* RTLOcp.h */; };
+		1C85D490098D29ED10841278 /* RTLRegs.h in Headers */ = {isa = PBXBuildFile; fileRef = 05F3C82D6DBEFD7492C6F2CB /* RTLRegs.h */; };
+		D48AAF34ABD27FB7AA66471C /* USBDriverKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BDFA16BF798101F546F05F9 /* USBDriverKit.framework */; };
+		728D86FBBF3B2564159446C6 /* NetworkingDriverKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD3B65BF498F4A56C04FC31 /* NetworkingDriverKit.framework */; };
+		AACE119593E2E81AED5B045C /* au.com.jquirke.RTL8159Driver.dext in Embed System Extensions */ = {isa = PBXBuildFile; fileRef = CE8532D4A2F40660203D6C6F /* au.com.jquirke.RTL8159Driver.dext */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F3FBC51B05AAC02F65B1537A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1CA0D4094F25E0AC419B441 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BBBCF848B0D8E1888B1FA7B2;
+			remoteInfo = RTL8159Driver;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		9E6AD728DC3E8C1E434075E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BBBCF848B0D8E1888B1FA7B2 /* RTL8159Driver */;
+			targetProxy = F3FBC51B05AAC02F65B1537A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		86DD8FCAEADD227251D1CF92 /* Embed System Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/SystemExtensions;
+			dstSubfolderSpec = 1;
+			files = (
+				AACE119593E2E81AED5B045C /* au.com.jquirke.RTL8159Driver.dext in Embed System Extensions */,
+			);
+			name = "Embed System Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CE8532D4A2F40660203D6C6F /* au.com.jquirke.RTL8159Driver.dext */ = {isa = PBXFileReference; explicitFileType = "wrapper.driver-extension"; includeInIndex = 0; path = au.com.jquirke.RTL8159Driver.dext; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D06AAE62424020A2ECA14AD /* DriverKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DriverKit.framework; path = Library/Frameworks/DriverKit.framework; sourceTree = DEVELOPER_DIR; };
+		C6B35BF0093162F92F8F913D /* RTLDesc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTLDesc.h; sourceTree = "<group>"; };
+		7350268F67111D6638A123F7 /* RTLOcp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTLOcp.h; sourceTree = "<group>"; };
+		05F3C82D6DBEFD7492C6F2CB /* RTLRegs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTLRegs.h; sourceTree = "<group>"; };
+		5BDFA16BF798101F546F05F9 /* USBDriverKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = USBDriverKit.framework; path = System/DriverKit/System/Library/Frameworks/USBDriverKit.framework; sourceTree = SDKROOT; };
+		8BD3B65BF498F4A56C04FC31 /* NetworkingDriverKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkingDriverKit.framework; path = System/DriverKit/System/Library/Frameworks/NetworkingDriverKit.framework; sourceTree = SDKROOT; };
+		A41E7FD46EF6361AE62F7554 /* RTL8159Loader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTL8159Loader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AF95090689347B03FE157C4E /* Exceptions for "RTL8159Driver" folder in "RTL8159Driver" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BBBCF848B0D8E1888B1FA7B2 /* RTL8159Driver */;
+		};
+		6DF90D175044CC6C9BE97E74 /* Exceptions for "RTL8159Loader" folder in "RTL8159Loader" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				RTL8159Loader.entitlements,
+			);
+			target = 91760CB8CF4F12751C743844 /* RTL8159Loader */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CB5A3F255B50FF86879876FE /* RTL8159Driver */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AF95090689347B03FE157C4E /* Exceptions for "RTL8159Driver" folder in "RTL8159Driver" target */,
+			);
+			path = RTL8159Driver;
+			sourceTree = "<group>";
+		};
+		0E1454EE58FA050C6BA4A58F /* RTL8159Loader */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6DF90D175044CC6C9BE97E74 /* Exceptions for "RTL8159Loader" folder in "RTL8159Loader" target */,
+			);
+			path = RTL8159Loader;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		785B542C2E4E2A62695AA4B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				728D86FBBF3B2564159446C6 /* NetworkingDriverKit.framework in Frameworks */,
+				D48AAF34ABD27FB7AA66471C /* USBDriverKit.framework in Frameworks */,
+				4F2A491A285F9396991FCC06 /* DriverKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D52A33E913E896CD9C5BF73C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		40EC88007862A175E8385F80 = {
+			isa = PBXGroup;
+			children = (
+				3F52142626E476C6F417F831 /* Common */,
+				CB5A3F255B50FF86879876FE /* RTL8159Driver */,
+				0E1454EE58FA050C6BA4A58F /* RTL8159Loader */,
+				815A10D234319949E2291038 /* Frameworks */,
+				999F0ED83E51C898B5FC04A1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		999F0ED83E51C898B5FC04A1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE8532D4A2F40660203D6C6F /* au.com.jquirke.RTL8159Driver.dext */,
+				A41E7FD46EF6361AE62F7554 /* RTL8159Loader.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		815A10D234319949E2291038 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8BD3B65BF498F4A56C04FC31 /* NetworkingDriverKit.framework */,
+				5BDFA16BF798101F546F05F9 /* USBDriverKit.framework */,
+				7D06AAE62424020A2ECA14AD /* DriverKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F52142626E476C6F417F831 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				C6B35BF0093162F92F8F913D /* RTLDesc.h */,
+				7350268F67111D6638A123F7 /* RTLOcp.h */,
+				05F3C82D6DBEFD7492C6F2CB /* RTLRegs.h */,
+			);
+			name = Common;
+			path = ../Common;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8B71C2EF9265682ED30D606A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C114FC708059BB2585520A78 /* RTLDesc.h in Headers */,
+				27C700AC1D8D7CB68536BB3D /* RTLOcp.h in Headers */,
+				1C85D490098D29ED10841278 /* RTLRegs.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BBBCF848B0D8E1888B1FA7B2 /* RTL8159Driver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93BEF322093057DAB0348370 /* Build configuration list for PBXNativeTarget "RTL8159Driver" */;
+			buildPhases = (
+				8B71C2EF9265682ED30D606A /* Headers */,
+				DF8A8C4E33BC67CB54908474 /* Sources */,
+				785B542C2E4E2A62695AA4B6 /* Frameworks */,
+				68F2143CD7ABC2A9B31F7510 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CB5A3F255B50FF86879876FE /* RTL8159Driver */,
+			);
+			name = RTL8159Driver;
+			packageProductDependencies = (
+			);
+			productName = RTL8159Driver;
+			productReference = CE8532D4A2F40660203D6C6F /* au.com.jquirke.RTL8159Driver.dext */;
+			productType = "com.apple.product-type.driver-extension";
+		};
+		91760CB8CF4F12751C743844 /* RTL8159Loader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBD6F85683E12709BAA50676 /* Build configuration list for PBXNativeTarget "RTL8159Loader" */;
+			buildPhases = (
+				2156418358016C72EF60A9B9 /* Sources */,
+				D52A33E913E896CD9C5BF73C /* Frameworks */,
+				486FF414AE91B5014132890A /* Resources */,
+				86DD8FCAEADD227251D1CF92 /* Embed System Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9E6AD728DC3E8C1E434075E1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0E1454EE58FA050C6BA4A58F /* RTL8159Loader */,
+			);
+			name = RTL8159Loader;
+			packageProductDependencies = (
+			);
+			productName = RTL8159Loader;
+			productReference = A41E7FD46EF6361AE62F7554 /* RTL8159Loader.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F1CA0D4094F25E0AC419B441 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					BBBCF848B0D8E1888B1FA7B2 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					91760CB8CF4F12751C743844 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+				};
+			};
+			buildConfigurationList = FDF1178118FA6E682C840032 /* Build configuration list for PBXProject "RTL8159Driver" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 40EC88007862A175E8385F80;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 999F0ED83E51C898B5FC04A1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BBBCF848B0D8E1888B1FA7B2 /* RTL8159Driver */,
+				91760CB8CF4F12751C743844 /* RTL8159Loader */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		68F2143CD7ABC2A9B31F7510 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		486FF414AE91B5014132890A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DF8A8C4E33BC67CB54908474 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2156418358016C72EF60A9B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		68AFA5CEF43E08FEC604AAC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RTL8159Driver/RTL8159Driver.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				"DEVELOPMENT_TEAM[sdk=driverkit*]" = R83642DDMF;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/System/DriverKit/System/Library/Frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../Common",
+				);
+				INFOPLIST_FILE = RTL8159Driver/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.jquirke.RTL8159Driver;
+				PRODUCT_NAME = "$(inherited)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		F3D443A43E1D303576ADD66F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RTL8159Driver/RTL8159Driver.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				"DEVELOPMENT_TEAM[sdk=driverkit*]" = R83642DDMF;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/System/DriverKit/System/Library/Frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../Common",
+				);
+				INFOPLIST_FILE = RTL8159Driver/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.jquirke.RTL8159Driver;
+				PRODUCT_NAME = "$(inherited)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		3C3353148B82B807822C16B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = R83642DDMF;
+				DRIVERKIT_DEPLOYMENT_TARGET = 25.4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = driverkit;
+			};
+			name = Debug;
+		};
+		4A1BDCDA6F23140DED6E9C17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = R83642DDMF;
+				DRIVERKIT_DEPLOYMENT_TARGET = 25.4;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = driverkit;
+			};
+			name = Release;
+		};
+		D8BCB599D50B1E066CE8253B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RTL8159Loader/RTL8159Loader.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R83642DDMF;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RTL8159Loader/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.jquirke.RTL8159Loader;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		EA775A4E79A836E57E71AAEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RTL8159Loader/RTL8159Loader.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R83642DDMF;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RTL8159Loader/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = au.com.jquirke.RTL8159Loader;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FDF1178118FA6E682C840032 /* Build configuration list for PBXProject "RTL8159Driver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C3353148B82B807822C16B4 /* Debug */,
+				4A1BDCDA6F23140DED6E9C17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93BEF322093057DAB0348370 /* Build configuration list for PBXNativeTarget "RTL8159Driver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68AFA5CEF43E08FEC604AAC3 /* Debug */,
+				F3D443A43E1D303576ADD66F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBD6F85683E12709BAA50676 /* Build configuration list for PBXNativeTarget "RTL8159Loader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8BCB599D50B1E066CE8253B /* Debug */,
+				EA775A4E79A836E57E71AAEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F1CA0D4094F25E0AC419B441 /* Project object */;
+}

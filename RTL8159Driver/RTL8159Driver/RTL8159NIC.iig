@@ -1,0 +1,110 @@
+// RTL8159NIC.iig
+// Personality B: USB Ethernet NIC (IOUserNetworkEthernet)
+//
+// Matches IOUSBHostInterface (VID=0x0BDA, PID=0x815A, Config 1, Interface 0, Class 255).
+// Config 1 is already pinned by Personality A (RTL8159Driver) which holds the device
+// session open. Provider is the interface nub directly.
+
+#ifndef RTL8159NIC_h
+#define RTL8159NIC_h
+
+#include <Availability.h>
+#include <DriverKit/IOService.iig>
+#include <DriverKit/IOTimerDispatchSource.iig>
+#include <DriverKit/IODataQueueDispatchSource.iig>
+#include <NetworkingDriverKit/IOUserNetworkEthernet.iig>
+#include <USBDriverKit/IOUSBHostPipe.iig>
+
+struct RTL8159NIC_IVars;
+
+class RTL8159NIC: public IOUserNetworkEthernet
+{
+public:
+    virtual bool
+    init() override;
+
+    virtual void
+    free() override;
+
+    virtual kern_return_t
+    Start(IOService * provider) override;
+
+    virtual kern_return_t
+    Stop(IOService * provider) override;
+
+    // USB RX bulk IN completion
+    virtual void
+    OnRxComplete(OSAction * action,
+                 IOReturn status,
+                 uint32_t actualByteCount,
+                 uint64_t completionTimestamp) TYPE(IOUSBHostPipe::CompleteAsyncIO);
+
+    // USB interrupt IN completion — link status notification
+    virtual void
+    OnItrComplete(OSAction * action,
+                  IOReturn status,
+                  uint32_t actualByteCount,
+                  uint64_t completionTimestamp) TYPE(IOUSBHostPipe::CompleteAsyncIO);
+
+    // OSAction dispatch diagnostic — fires 3s after Start()
+    virtual void
+    OnTimerFired(OSAction * action,
+                 uint64_t time) TYPE(IOTimerDispatchSource::TimerOccurred);
+
+    // TX path — stack notifies when a packet is enqueued
+    virtual void
+    TxPacketAvailable(OSAction * action) TYPE(IODataQueueDispatchSource::DataAvailable);
+
+    // TX USB bulk OUT completion
+    virtual void
+    OnTxComplete(OSAction * action,
+                 IOReturn status,
+                 uint32_t actualByteCount,
+                 uint64_t completionTimestamp) TYPE(IOUSBHostPipe::CompleteAsyncIO);
+
+    // Media support
+    virtual kern_return_t
+    getSupportedMediaArray(MediaWord * mediaArray,
+                           uint32_t * mediaCount) override LOCALONLY;
+
+    virtual kern_return_t
+    handleChosenMedia(MediaWord chosenMedia) override LOCALONLY;
+
+    virtual MediaWord
+    getInitialMedia() override LOCALONLY;
+
+    // Deprecated pure virtuals — dispatched
+    virtual kern_return_t
+    SetInterfaceEnable(bool isEnable) override;
+
+    virtual kern_return_t
+    SetPromiscuousModeEnable(bool enable) override;
+
+    virtual kern_return_t
+    SetAllMulticastModeEnable(bool enable) override;
+
+    virtual kern_return_t
+    SetMulticastAddresses(const IOUserNetworkMACAddress * addresses,
+                          uint32_t count) override;
+
+    virtual kern_return_t
+    SelectMediaType(IOUserNetworkMediaType mediaType) override;
+
+    virtual kern_return_t
+    SetWakeOnMagicPacketEnable(bool enable) override;
+
+    // Deprecated LOCAL pure virtuals
+    virtual kern_return_t
+    SetMTU(uint32_t mtu) override LOCAL;
+
+    virtual kern_return_t
+    GetMaxTransferUnit(uint32_t * mtu) override LOCAL;
+
+    virtual kern_return_t
+    SetHardwareAssists(uint32_t hardwareAssists) override LOCAL;
+
+    virtual kern_return_t
+    GetHardwareAssists(uint32_t * hardwareAssists) override LOCAL;
+};
+
+#endif /* RTL8159NIC_h */

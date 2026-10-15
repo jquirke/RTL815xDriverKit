@@ -1,0 +1,32 @@
+// RTL8153Driver.iig
+// Personality A: USB config selector (IOService)
+//
+// Matches IOUSBHostDevice (VID=0x0BDA, PID=0x8153).
+// Opens the device, selects Config 1 (vendor-specific), and keeps the session
+// open to prevent reversion to Config 2 (CDC, matched by AppleUserECM).
+
+#ifndef RTL8153Driver_h
+#define RTL8153Driver_h
+
+#include <Availability.h>
+#include <DriverKit/IOService.iig>
+
+struct RTL8153Driver_IVars;
+
+class RTL8153Driver: public IOService
+{
+public:
+    virtual bool
+    init() override;
+
+    virtual void
+    free() override;
+
+    virtual kern_return_t
+    Start(IOService * provider) override;
+
+    virtual kern_return_t
+    Stop(IOService * provider) override;
+};
+
+#endif /* RTL8153Driver_h */

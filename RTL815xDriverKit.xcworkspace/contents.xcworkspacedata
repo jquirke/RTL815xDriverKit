@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:RTL8153Driver/RTL8153Driver.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RTL8159Driver/RTL8159Driver.xcodeproj">
+   </FileRef>
+</Workspace>

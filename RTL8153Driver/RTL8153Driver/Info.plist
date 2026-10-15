@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundlePackageType</key>
+	<string>DEXT</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>OSBundleUsageDescription</key>
+	<string>RTL8153 USB Gigabit Ethernet driver</string>
+	<key>OSBundleLibraries</key>
+	<dict>
+		<key>com.apple.iokit.IOSkywalkFamily</key>
+		<string>1.0</string>
+	</dict>
+	<key>IOKitPersonalities</key>
+	<dict>
+		<!-- Personality A: USB config selector.
+		     Matches the device node (VID=0x0BDA, PID=0x8153), forces Config 1
+		     (vendor-specific interface, class 255), and holds the device session
+		     open to prevent reversion to Config 2 (CDC, matched by AppleUserECM).
+		     SetConfiguration(1, true) causes the USB stack to publish
+		     IOUSBHostInterface nubs for Config 1, which Personality B matches. -->
+		<key>RTL8153-Device</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleIdentifierKernel</key>
+			<string>com.apple.kpi.iokit</string>
+			<key>IOClass</key>
+			<string>IOUserService</string>
+			<key>IOMatchCategory</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).device</string>
+			<key>IOProviderClass</key>
+			<string>IOUSBHostDevice</string>
+			<key>IOUserClass</key>
+			<string>RTL8153Driver</string>
+			<key>IOUserServerName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>idProduct</key>
+			<integer>33107</integer>
+			<key>idVendor</key>
+			<integer>3034</integer>
+		</dict>
+		<!-- Personality B: USB Ethernet NIC.
+		     Matches the Config 1 vendor-specific interface (class 255, interface 0)
+		     published by Personality A. Provider is IOUSBHostInterface, required for
+		     IOUSBHostPipe AsyncIO completions to be delivered to this dext. -->
+		<key>RTL8153-NIC</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleIdentifierKernel</key>
+			<string>com.apple.iokit.IOSkywalkFamily</string>
+			<key>IOClass</key>
+			<string>IOUserNetworkEthernet</string>
+			<key>IOMatchCategory</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>IOProviderClass</key>
+			<string>IOUSBHostInterface</string>
+			<key>IOUserClass</key>
+			<string>RTL8153NIC</string>
+			<key>IOUserServerName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>bConfigurationValue</key>
+			<integer>1</integer>
+			<key>bInterfaceClass</key>
+			<integer>255</integer>
+			<key>bInterfaceNumber</key>
+			<integer>0</integer>
+			<key>idProduct</key>
+			<integer>33107</integer>
+			<key>idVendor</key>
+			<integer>3034</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>
