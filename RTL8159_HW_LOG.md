@@ -80,7 +80,7 @@ EP1 Interrupt 16B in wMaxPacketSize, unlike RTL8153 whose EP3 was 2B wMaxPacketS
 - `bConfigurationValue = 2`, 2 interfaces
 - **Interface 0** (Communications Control):
   - `bInterfaceClass = 2`, `bInterfaceSubClass = 13` → **CDC NCM** (not ECM)
-  - CDC Ethernet descriptor: `iMacAddress = 3` → `1C:86:0B:3B:E7:F6`
+  - CDC Ethernet descriptor: `iMacAddress = 3` (hardware address omitted)
   - `wMaxSegmentSize = 1518`, `wNumberMCFilters = 0x8000`
   - CDC NCM descriptor: `bcdNcmVersion = 1.00`, `bmNetworkCapabilities = 0x2b`
   - EP 3 IN Interrupt: `wMaxPacketSize = 16B`, `wBytesPerInterval = 8`
@@ -97,7 +97,7 @@ EP1 Interrupt 16B in wMaxPacketSize, unlike RTL8153 whose EP3 was 2B wMaxPacketS
 - `bConfigurationValue = 3`, 2 interfaces
 - **Interface 0** (Communications Control):
   - `bInterfaceClass = 2`, `bInterfaceSubClass = 6` → **CDC ECM**
-  - CDC Ethernet descriptor: same MAC `1C:86:0B:3B:E7:F6`
+  - CDC Ethernet descriptor: same hardware address as configuration 2
   - EP 3 IN Interrupt: `wMaxPacketSize = 16B`, `wBytesPerInterval = 8`
 - **Interface 1, AltSetting 0** (Data, zero endpoints — inactive)
   - `bInterfaceClass = 10`, `bInterfaceSubClass = 0`, `bInterfaceProtocol = 0`
@@ -124,8 +124,8 @@ LTM is supported — disable it during init (same as `rtl8153_init` U1/U2/LTM di
 
 ## MAC Address
 
-`1C:86:0B:3B:E7:F6` — visible in CDC Ethernet descriptor (iMacAddress string index 3).
-Also readable via OCP `PLA_IDR` (`0xC000`) once Config 1 is active.
+The hardware address is available from CDC Ethernet descriptor string index 3.
+An 8-byte OCP read of `PLA_BACKUP` (`0xD000`) also returned it with configuration 1 active.
 
 ---
 

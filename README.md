@@ -34,7 +34,7 @@ The NIC uses `CopyDevice()` for a device reference; the device personality owns 
 - The signed dext activates through the RTL8159 loader app and matches the adapter.
 - The device personality selects configuration 1. IORegistry reports `kUSBCurrentConfiguration = 1`.
 - The NIC personality matches interface 0, alternate setting 0. `CopyPipe` succeeds for `0x81`, `0x02`, and `0x83`.
-- Skywalk registers `en14` in the observed run, with placeholder MAC `02:8a:15:90:00:01`. Interface numbers are assigned by macOS and can change.
+- Skywalk registers `en14` in the observed run. The NIC reads its hardware MAC from OCP `PLA_BACKUP`; interface numbers are assigned by macOS and can change.
 - Ten RX transfers and one interrupt transfer are posted. The interrupt callback receives successful 2-byte completions, repeatedly reporting status word `0x0000`.
 - After the diagnostic build loaded, the observed system had two RTL8159 dext processes, one for each personality, rather than a growing set of processes.
 - In two teardown runs with the explicit configuration-2 handoff and borrowed-provider ownership fix, loader uninstall returned the still-plugged device to NCM and restored `en14` without a replug.

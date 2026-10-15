@@ -17,6 +17,7 @@
 // PLA (Packet/MAC) registers
 
 #define PLA_IDR             0xC000  // MAC address (6 bytes)
+#define PLA_BACKUP          0xD000  // permanent MAC address (first 6 of 8 bytes)
 #define PLA_RCR             0xC010  // RX control
 #define PLA_RMS             0xC016  // RX max packet size
 #define PLA_CR              0xC016  // alias: MAC control register

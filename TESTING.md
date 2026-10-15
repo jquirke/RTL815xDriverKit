@@ -53,6 +53,10 @@ This proves the skeleton can match, open its pipes, register Skywalk Ethernet, a
 
 The difference between the two builds strongly implicates the early OCP MAC read or its timing in the disconnect loop. It does not yet show whether the request encoding is wrong, the device needs a settling delay after configuration selection, or some other interaction is involved.
 
+### Aligned OCP MAC read
+
+An updated NIC build reads eight bytes from OCP `PLA_BACKUP` (`0xD000`) in one aligned transfer and uses the first six bytes as the hardware MAC. On three observed starts, `DeviceRequest` returned success and the MAC matched the value in the CDC descriptor. Each start then reached `RegisterEthernetInterface OK`. This confirms that this OCP read works in the current startup sequence; the earlier failed `PLA_IDR` read remains unexplained. The driver now reports OCP read success without printing the address and fails startup if the read fails.
+
 ## Deactivation, transient enumeration failure, and NCM fallback
 
 The loader's **Uninstall** button submitted a system extension deactivation request. The sequence was not immediate or clean:
@@ -62,13 +66,13 @@ The loader's **Uninstall** button submitted a system extension deactivation requ
 - Early unplug/replug attempts logged port power-off/power-on transitions without a completed `0x0bda/815a` enumeration. The device was absent from IORegistry and `lsusb`.
 - Reactivating the RTL8159 extension and reenumerating restored configuration 1, `RTL8159NIC`, and `en14`; two RTL8159 dext processes were observed.
 - After the loader deactivated RTL8159 again, the stuck system extension entries and all RTL8159 dext processes were gone. A later reenumeration completed at 10 Gbps, and IORegistry reported `kUSBCurrentConfiguration = 2` and `kUSBPreferredConfiguration = 2`.
-- IORegistry placed `en14` under `AppleUSBNCMData` and `AppleUSBNCMControl`, both from `com.apple.driver.usb.cdc.ncm`. `ifconfig en14` showed the hardware MAC `1c:86:0b:3b:e7:f6`, `media: autoselect (none)`, and `status: inactive`. No RTL8159 dext process was running, and only AQC111 remained in `systemextensionsctl list`.
+- IORegistry placed `en14` under `AppleUSBNCMData` and `AppleUSBNCMControl`, both from `com.apple.driver.usb.cdc.ncm`. `ifconfig en14` showed the hardware MAC, `media: autoselect (none)`, and `status: inactive`. No RTL8159 dext process was running, and only AQC111 remained in `systemextensionsctl list`.
 
 This confirms that Apple's NCM driver can claim the adapter after RTL8159 deactivation. It does not explain why the adapter was temporarily invisible on the earlier attempts, or whether the prior corpse buildup came from a teardown defect or dirty system state. No reboot was needed for the eventual NCM attachment; the planned reboot was canceled once the stuck entries and corpses cleared.
 
 ### Controlled load/unload and NCM return
 
-With the device continuously plugged in, installing RTL8159 switched the same USB device instance from configuration 2/NCM to configuration 1/RTL8159NIC. Uninstalling RTL8159 removed both dext processes and `en14`, but the device stayed enumerated in configuration 1 (preferred configuration 2), with no NCM interface. Waiting roughly three minutes did not change that state. A physical replug created a new USB device instance in configuration 2, and `en14` returned under `AppleUSBNCMControl` and `AppleUSBNCMData` with hardware MAC `1c:86:0b:3b:e7:f6`.
+With the device continuously plugged in, installing RTL8159 switched the same USB device instance from configuration 2/NCM to configuration 1/RTL8159NIC. Uninstalling RTL8159 removed both dext processes and `en14`, but the device stayed enumerated in configuration 1 (preferred configuration 2), with no NCM interface. Waiting roughly three minutes did not change that state. A physical replug created a new USB device instance in configuration 2, and `en14` returned under `AppleUSBNCMControl` and `AppleUSBNCMData` with the hardware MAC.
 
 Two further load/unload/replug cycles gave the same result. NCM was present after the first replug in each cycle, at 07:57:23 and 07:58:21, respectively 21 and 14 seconds after the unloaded-state checks. This rules out a wait of several minutes as a requirement in those runs; the earlier failed enumerations remain unexplained.
 
@@ -76,7 +80,7 @@ Two further load/unload/replug cycles gave the same result. NCM was present afte
 
 `RTL8159Driver::Stop` now calls `SetConfiguration(2, true)` while its device session is open, then closes the session. A `CODE_SIGNING_ALLOWED=NO` Xcode build passed, and the signed device personality with build timestamp `[Oct 16 2026 08:09:14]` was installed through the loader.
 
-With the device continuously plugged in, RTL8159 first claimed the existing USB device instance in configuration 1. On loader uninstall at 08:10:24, the logs showed `SetConfiguration(2) -> 0x0` and `Close -> 0x0`. The `RTL8159NIC::Stop` entry appeared about 5 ms later. IORegistry then showed **the same USB device instance** (`0x1000291cb`) in configuration 2, with `AppleUSBNCMControl` and `AppleUSBNCMData` owning `en14`. `ifconfig en14` showed the hardware MAC `1c:86:0b:3b:e7:f6`. RTL8159 was absent from `systemextensionsctl list`, and no RTL8159 dext processes remained. No physical replug was needed.
+With the device continuously plugged in, RTL8159 first claimed the existing USB device instance in configuration 1. On loader uninstall at 08:10:24, the logs showed `SetConfiguration(2) -> 0x0` and `Close -> 0x0`. The `RTL8159NIC::Stop` entry appeared about 5 ms later. IORegistry then showed **the same USB device instance** (`0x1000291cb`) in configuration 2, with `AppleUSBNCMControl` and `AppleUSBNCMData` owning `en14`. `ifconfig en14` showed the hardware MAC. RTL8159 was absent from `systemextensionsctl list`, and no RTL8159 dext processes remained. No physical replug was needed.
 
 The USB configuration handoff succeeded, but **the dext shutdown was not clean**. DriverKit logged `RTL8159NIC:force close`, `Corpse allowed 5 of 5`, then `Corpse failure, too many 6`; `sysextd` reported `kernelmanagerd.KMError Code=38` before finishing uninstall. A crash report for device-personality PID 39153 recorded `EXC_BAD_ACCESS` at address `0x10` on `RTL8159Driver-Default`, inside the asynchronous `IOService::Stop_Impl` cleanup block. Earlier RTL8159 crash reports show the same stack and fault address, so this failure predates the configuration-2 change. Both dext processes nevertheless exited.
 

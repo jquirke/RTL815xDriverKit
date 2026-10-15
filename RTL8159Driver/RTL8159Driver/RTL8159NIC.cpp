@@ -103,6 +103,9 @@ ocpRead(IOUSBHostInterface *iface, uint16_t mcuType, uint16_t regAddr, void *dat
         IOAddressSegment range;
         buf->GetAddressRange(&range);
         memcpy(data, (const void *)range.address, len);
+    } else if (ret == kIOReturnSuccess) {
+        Log("ocpRead: reg=0x%04x requested=%u received=%u", regAddr, len, transferred);
+        ret = kIOReturnIOError;
     }
     OSSafeReleaseNULL(buf);
     return ret;
@@ -129,21 +132,12 @@ ocpWrite(IOUSBHostInterface *iface, uint16_t mcuType, uint16_t regAddr, const vo
 static kern_return_t
 rtlReadMACAddress(IOUSBHostInterface *iface, IOUserNetworkMACAddress *out)
 {
-    uint32_t lo = 0;
-    uint16_t hi = 0;
-    kern_return_t ret;
-
-    ret = ocpRead(iface, MCU_TYPE_PLA, PLA_IDR, &lo, 4);
-    if (ret != kIOReturnSuccess) return ret;
-    ret = ocpRead(iface, MCU_TYPE_PLA, PLA_IDR + 4, &hi, 2);
+    // Linux reads the permanent address from PLA_BACKUP in one aligned transfer.
+    uint8_t backup[8] = {};
+    kern_return_t ret = ocpRead(iface, MCU_TYPE_PLA, PLA_BACKUP, backup, sizeof(backup));
     if (ret != kIOReturnSuccess) return ret;
 
-    out->octet[0] = (lo >>  0) & 0xFF;
-    out->octet[1] = (lo >>  8) & 0xFF;
-    out->octet[2] = (lo >> 16) & 0xFF;
-    out->octet[3] = (lo >> 24) & 0xFF;
-    out->octet[4] = (hi >>  0) & 0xFF;
-    out->octet[5] = (hi >>  8) & 0xFF;
+    memcpy(out->octet, backup, sizeof(out->octet));
     return kIOReturnSuccess;
 }
 
@@ -244,11 +238,13 @@ IMPL(RTL8159NIC, Start)
         goto fail;
     }
 
-    // Diagnostic: isolate the USB port reset from the first vendor OCP request.
-    // Restore rtlReadMACAddress once configuration 1 remains stable.
-    macAddress = { .octet = { 0x02, 0x8A, 0x15, 0x90, 0x00, 0x01 } };
+    ret = rtlReadMACAddress(ivars->interface, &macAddress);
+    if (ret != kIOReturnSuccess) {
+        Log("Start: OCP MAC read failed: 0x%x", ret);
+        goto fail;
+    }
+    Log("Start: OCP MAC read OK");
     ivars->macAddress = macAddress;
-    Log("Start: diagnostic: skipping OCP MAC read");
 
     hwInit(ivars->interface);
 
