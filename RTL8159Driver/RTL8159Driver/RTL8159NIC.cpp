@@ -442,7 +442,8 @@ IMPL(RTL8159NIC, Stop)
     OSSafeReleaseNULL(ivars->pipeItr);
     OSSafeReleaseNULL(ivars->pipeRx);
     OSSafeReleaseNULL(ivars->pipeTx);
-    OSSafeReleaseNULL(ivars->interface);
+    // Start's interface provider is system-owned; OSDynamicCast did not retain it.
+    ivars->interface = nullptr;
     OSSafeReleaseNULL(ivars->device);
     OSSafeReleaseNULL(ivars->asyncQueue);
     OSSafeReleaseNULL(ivars->queue);

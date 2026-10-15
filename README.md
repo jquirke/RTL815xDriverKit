@@ -22,7 +22,7 @@ Configuration 1 has four alternate settings. The current skeleton uses alternate
 
 The RTL8159 dext contains two IOKit personalities in [Info.plist](RTL8159Driver/RTL8159Driver/Info.plist):
 
-1. **`RTL8159-Device`** matches `IOUSBHostDevice` with VID `0x0bda` and PID `0x815a`. `RTL8159Driver` opens the device, calls `SetConfiguration(1, true)`, and holds the device session open.
+1. **`RTL8159-Device`** matches `IOUSBHostDevice` with VID `0x0bda` and PID `0x815a`. `RTL8159Driver` opens the device, calls `SetConfiguration(1, true)`, and holds the device session open. On teardown it calls `SetConfiguration(2, true)` before closing to restore NCM matching.
 2. **`RTL8159-NIC`** matches `IOUSBHostInterface` with the same VID/PID, configuration 1, class `0xff`, and interface number 0. `RTL8159NIC` opens the interface, creates the USB pipes and Skywalk queues, and calls `RegisterEthernetInterface`.
 
 The NIC uses `CopyDevice()` for a device reference; the device personality owns the exclusive device session. This follows the two-personality design used by [AQC111Driver](../AQC111Driver/README.md).
@@ -37,6 +37,7 @@ The NIC uses `CopyDevice()` for a device reference; the device personality owns 
 - Skywalk registers `en14` in the observed run, with placeholder MAC `02:8a:15:90:00:01`. Interface numbers are assigned by macOS and can change.
 - Ten RX transfers and one interrupt transfer are posted. The interrupt callback receives successful 2-byte completions, repeatedly reporting status word `0x0000`.
 - After the diagnostic build loaded, the observed system had two RTL8159 dext processes, one for each personality, rather than a growing set of processes.
+- In two teardown runs with the explicit configuration-2 handoff and borrowed-provider ownership fix, loader uninstall returned the still-plugged device to NCM and restored `en14` without a replug.
 
 **Not yet implemented or validated:**
 
@@ -48,7 +49,8 @@ The NIC uses `CopyDevice()` for a device reference; the device personality owns 
 **Open issues:**
 
 - With the initial MAC OCP read enabled, the USB port repeatedly powered off about 45 ms after configuration 1 was selected. The read returned `kIOReturnAborted` (`0xe00002eb`); subsequent `CopyPipe` returned a general error (`0xe00002bc`). Bypassing that first read allowed the NIC to start and remain enumerated. This isolates the issue to the read or its timing; the precise hardware/USB cause is unresolved.
-- After deactivation through the loader, `en14` and the dext disappeared, but the adapter initially remained in configuration 1. After physical reenumeration, the adapter was temporarily absent from both IORegistry and `lsusb`, so CDC NCM was **not** tested successfully. Reactivating the dext and reenumerating restored the RTL8159 interface. It is not yet known whether this was stale system state, device state, or a driver teardown defect.
+- After deactivation through the loader, the dext and its processes disappeared. The adapter was temporarily absent from IORegistry and `lsusb` during early reenumeration attempts. A later reenumeration with the dext still deactivated selected configuration 2: Apple's `com.apple.driver.usb.cdc.ncm` claimed the adapter and created `en14` with the hardware MAC. The cause of the transient absence and earlier corpse accumulation remains unresolved; no reboot was needed to reach the NCM state.
+- The explicit configuration-2 handoff returned the still-plugged adapter to NCM. An initial unload still produced the preexisting `IOService::Stop_Impl` crash and corpse messages. Removing releases of the borrowed device and interface providers eliminated those symptoms in two consecutive unload tests. A forced NIC interface close and a `sysextd` termination warning still appeared.
 - Per-completion interrupt logging is currently very noisy.
 
 The chronological evidence and limits of each observation are in [TESTING.md](TESTING.md).
@@ -62,7 +64,7 @@ The chronological evidence and limits of each observation are in [TESTING.md](TE
 
 The dext requires DriverKit, USB transport, and networking family entitlements. Its [entitlements file](RTL8159Driver/RTL8159Driver/RTL8159Driver.entitlements) and signing configuration must match the provisioning profile. A `CODE_SIGNING_ALLOWED=NO` command-line build confirms compilation but cannot be installed as a system extension.
 
-Extension activation alone does not prove hardware attachment. Check IORegistry and the NIC logs as well. Unplugging and reconnecting the adapter may be needed after activation or deactivation; the fallback to NCM remains unverified in the current test run.
+Extension activation alone does not prove hardware attachment. Check IORegistry and the NIC logs as well. The configuration-2 handoff returned the still-plugged device to NCM in two tests; the earlier delay and failed enumeration attempts remain unexplained.
 
 ## Diagnostics
 

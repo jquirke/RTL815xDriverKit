@@ -2,8 +2,8 @@
 // Personality A: USB config selector
 //
 // Matches IOUSBHostDevice (VID=0x0BDA, PID=0x815A).
-// Opens device, selects Config 1 (vendor-specific, class 255), keeps session
-// open to prevent the USB stack from reverting to Config 2 (NCM) or Config 3 (ECM).
+// Opens device, selects Config 1 (vendor-specific, class 255), and keeps its
+// session open while using the vendor interface. On teardown, restores Config 2 (NCM).
 
 #include <os/log.h>
 #include <DriverKit/DriverKit.h>
@@ -55,8 +55,8 @@ IMPL(RTL8159Driver, Start)
         return ret;
     }
 
-    // Select Config 1 and publish interface nubs. Keep session open —
-    // releasing it causes the stack to revert to Config 2 (NCM).
+    // Select Config 1 and publish interface nubs. Keep the session open while
+    // the NIC uses those interfaces.
     ret = ivars->device->SetConfiguration(1, true);
     if (ret != kIOReturnSuccess) {
         Log("SetConfiguration(1) failed: 0x%x", ret);
@@ -74,8 +74,16 @@ IMPL(RTL8159Driver, Stop)
 {
     Log("Stop");
     if (ivars->device != nullptr) {
-        ivars->device->Close(this, 0);
-        OSSafeReleaseNULL(ivars->device);
+        // Closing the session alone leaves this adapter in Config 1, with no
+        // NCM interfaces to match. Switching configurations removes the vendor
+        // interface and triggers RTL8159NIC teardown; its Stop may run later.
+        Log("Stop: SetConfiguration(2) begin");
+        kern_return_t ret = ivars->device->SetConfiguration(2, true);
+        Log("Stop: SetConfiguration(2) -> 0x%x", ret);
+        ret = ivars->device->Close(this, 0);
+        Log("Stop: Close -> 0x%x", ret);
+        // Start's provider is system-owned; OSDynamicCast did not retain it.
+        ivars->device = nullptr;
     }
     return Stop(provider, SUPERDISPATCH);
 }
